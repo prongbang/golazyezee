@@ -1,4 +1,4 @@
-package golazyezee
+package lazyxsalsa
 
 import (
 	"encoding/hex"
@@ -8,15 +8,15 @@ import (
 
 const NonceHexSize = 24 * 2
 
-type LazyEzee interface {
+type LazyXSalsa interface {
 	Encrypt(plainText string, keyPair KeyPair) (string, error)
 	Decrypt(cipherText string, keyPair KeyPair) (string, error)
 }
 
-type lazyEzee struct {
+type lazyXSalsa struct {
 }
 
-func (e *lazyEzee) Encrypt(plainText string, keyPair KeyPair) (string, error) {
+func (e *lazyXSalsa) Encrypt(plainText string, keyPair KeyPair) (string, error) {
 	kp, er := keyPair.toBoxKP()
 	if er != nil {
 		return "", er
@@ -27,24 +27,22 @@ func (e *lazyEzee) Encrypt(plainText string, keyPair KeyPair) (string, error) {
 	cipherByte := plainByte.Box(nonceByte, kp.PublicKey, kp.SecretKey)
 	nonceHex := hex.EncodeToString(nonceByte.Bytes)
 	cipherHex := hex.EncodeToString(cipherByte)
-	cipher := fmt.Sprintf("%s%s", cipherHex, nonceHex)
+	cipher := fmt.Sprintf("%s%s", nonceHex, cipherHex)
 	return cipher, nil
 }
 
-func (e *lazyEzee) Decrypt(cipherText string, keyPair KeyPair) (string, error) {
+func (e *lazyXSalsa) Decrypt(cipherText string, keyPair KeyPair) (string, error) {
 	kp, er := keyPair.toBoxKP()
 	if er != nil {
 		return "", er
 	}
-	size := len(cipherText)
-	cipherSize := size - NonceHexSize
-	nonceHex := cipherText[cipherSize:]
+	nonceHex := cipherText[:NonceHexSize]
 	nonce, err := hex.DecodeString(nonceHex)
 	if err != nil {
 		return "", err
 	}
 	nonceByte := sodium.BoxNonce{Bytes: nonce}
-	cipherHex := cipherText[:cipherSize]
+	cipherHex := cipherText[NonceHexSize:]
 	cipher, err := hex.DecodeString(cipherHex)
 	if err != nil {
 		return "", err
@@ -54,6 +52,6 @@ func (e *lazyEzee) Decrypt(cipherText string, keyPair KeyPair) (string, error) {
 	return string(plainByte), err
 }
 
-func New() LazyEzee {
-	return &lazyEzee{}
+func New() LazyXSalsa {
+	return &lazyXSalsa{}
 }

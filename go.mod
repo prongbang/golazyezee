@@ -1,4 +1,4 @@
-module github.com/prongbang/golazyezee
+module github.com/prongbang/lazyxsalsa
 
 go 1.21.1
 

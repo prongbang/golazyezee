@@ -1,4 +1,4 @@
-package golazyezee
+package lazyxsalsa
 
 import (
 	"encoding/hex"

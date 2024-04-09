@@ -1,15 +1,15 @@
-package golazyezee_test
+package lazyxsalsa_test
 
 import (
 	"fmt"
-	"github.com/prongbang/golazyezee"
+	"github.com/prongbang/lazyxsalsa"
 	"strings"
 	"testing"
 )
 
 func TestKeyPair_ToString(t *testing.T) {
 	// Given
-	keyPair := golazyezee.NewKeyPair()
+	keyPair := lazyxsalsa.NewKeyPair()
 
 	// When
 	actual := keyPair.ToString()
@@ -27,7 +27,7 @@ func TestKeyPair_ToKeyPair(t *testing.T) {
 	kpStr := fmt.Sprintf(`{"pk":"%s","sk":"%s"}`, pk, sk)
 
 	// When
-	actual := golazyezee.ToKeyPair(kpStr)
+	actual := lazyxsalsa.ToKeyPair(kpStr)
 
 	// Then
 	if actual.Pk != pk && actual.Sk != sk {
