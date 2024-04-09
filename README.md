@@ -1,6 +1,6 @@
 # lazyxsalsa
 
-Lazy XChaCha20-Poly1305 in golang base on libsodium.
+Lazy XSalsa20-Poly1305 in golang base on libsodium.
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/prongbang/lazyxsalsa)](https://goreportcard.com/report/github.com/prongbang/lazyxsalsa)
 
